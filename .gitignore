@@ -1,0 +1,62 @@
+# Node.js / Express backend
+node_modules/
+npm-debug.log*
+.env
+.env.local
+.env.*.local
+dist/
+build/
+coverage/
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional: OS-specific
+.DS_Store
+Thumbs.db
+
+# React frontend (create-react-app or Vite)
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/coverage/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.parcel-cache/
+frontend/.next/
+frontend/.turbo/
+frontend/.vite/
+
+# Optional editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Optional: database dumps or temp files
+*.sqlite
+*.sqlite3
+*.bak
+*.tmp
+*.log
+
+# Optional: Docker-related
+docker-compose.override.yml
+.env.docker
+.docker/
+
+# Optional: PM2 process logs
+pids/
+*.pid
+logs/
+*.log
+
+# Optional: uploads or user files
+uploads/
+public/uploads/
