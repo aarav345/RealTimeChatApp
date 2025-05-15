@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const userModel = require("../models/user.model");   
 const userService = require("../services/user.service");
 const utils = require("../lib/utils");
+const cloudinary = require("../lib/cloudinary");
 
 module.exports.signup = async (req, res, next) => {
 
@@ -83,12 +84,47 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.logout = async (req, res, next) => {
     try {
-        res.cookie("jwt", "", {maxAge: 0});
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === 'production',
+        })
         res.status(200).json({message: "Logout successful"});
     }
 
     catch (error) {
         console.log("Error in logout user controller", error);
+        return res.status(500).json({message: "Something went wrong"});
+    }
+}
+
+
+
+module.exports.updateProfile = async (req, res, next) => {
+
+    try {
+        const { profilePic } = req.body;
+        const userID = res.user._id;
+    
+        if (!profilePic) {
+            return res.status(400).json({message: "Profile picture is required"});
+        }
+    
+        const uploadResponse = await cloudinary.uploader.upload(profilePic)
+        const updatedUser = await userModel.findByIdAndUpdate(userID, {profilePic: uploadResponse.secure_url}, {new: true})
+    
+        res.status(200).json(updatedUser);
+    }
+    catch (error) {
+        return req.status(500).json({message: "Something went wrong"});
+    }
+}
+
+module.exports.checkAuth = (req, res, next) => {
+    try {
+        req.status(200).json(res.user);
+    } catch (error) {
+        console.log("Error in check auth user controller", error);
         return res.status(500).json({message: "Something went wrong"});
     }
 }
