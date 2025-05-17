@@ -104,7 +104,7 @@ module.exports.updateProfile = async (req, res, next) => {
 
     try {
         const { profilePic } = req.body;
-        const userID = res.user._id;
+        const userID = req.user._id;
     
         if (!profilePic) {
             return res.status(400).json({message: "Profile picture is required"});
@@ -116,13 +116,13 @@ module.exports.updateProfile = async (req, res, next) => {
         res.status(200).json(updatedUser);
     }
     catch (error) {
-        return req.status(500).json({message: "Something went wrong"});
+        return res.status(500).json({message: "Something went wrong"});
     }
 }
 
 module.exports.checkAuth = (req, res, next) => {
     try {
-        req.status(200).json(res.user);
+        return res.status(200).json(req.user);
     } catch (error) {
         console.log("Error in check auth user controller", error);
         return res.status(500).json({message: "Something went wrong"});
