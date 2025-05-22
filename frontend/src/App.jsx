@@ -14,12 +14,14 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 
 const App = () => {
 
-  const {checkAuth, authUser, isCheckingAuth} = useAuthStore();
+  const {checkAuth, authUser, isCheckingAuth, onlineUsers} = useAuthStore();
   const {theme} = useThemeStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  console.log(onlineUsers);
 
   if (isCheckingAuth && !authUser) return (
     <div className=" flex items-center justify-center h-screen">
@@ -27,8 +29,6 @@ const App = () => {
     </div>
   )
 
-
-  console.log(authUser);
   return (
     <>
     <div data-theme={theme}>
